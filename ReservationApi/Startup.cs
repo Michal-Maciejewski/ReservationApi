@@ -66,7 +66,7 @@ namespace ReservationApi
             services.AddScoped<IMapper, ServiceMapper>();
         }
 
-        public void SeedDatabase(IServiceProvider services) //can be placed at the very bottom under app.Run()
+        public void SeedDatabase(IServiceProvider services)
         {
             using (var scope = services.CreateScope())
             {
@@ -135,12 +135,7 @@ namespace ReservationApi
                     }
                 });
 
-                // Set the comments path for the Swagger JSON and UI.
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //c.IncludeXmlComments(xmlPath);
-
-                // using System.Reflection;
+                // Set the comments path for the Swagger JSON and UI. using System.Reflection;
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });

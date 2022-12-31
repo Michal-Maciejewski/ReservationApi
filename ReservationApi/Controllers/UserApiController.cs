@@ -17,8 +17,7 @@ namespace ReservationApi.Controllers
 {
     [Route("user")]
     [ApiController]
-    [ProducesResponseType(401)]
-    [ProducesResponseType(403)]
+    [ApiVersion("1.0")]
     public class UserApiController : BaseApiController
     {
         private readonly IConfiguration _config;
@@ -30,6 +29,10 @@ namespace ReservationApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -40,6 +43,11 @@ namespace ReservationApi.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registerMemberModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("register-member")]
         public async Task<IActionResult> RegisterMember(RegisterMemberModel registerMemberModel)
@@ -60,6 +68,11 @@ namespace ReservationApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Authorize(Roles = "Member")]
         [Route("deletemember/{id=id}")]

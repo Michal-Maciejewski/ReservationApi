@@ -8,6 +8,14 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <NoWarn>1701;1702; 1591;</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <NoWarn>1701;1702; 1591;</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.3.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
@@ -27,7 +35,7 @@
 	</ItemGroup>
 
 
-	<Target Name="Mapster">
+	<!--<Target Name="Mapster">
 		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build" />
 		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
 		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster model -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
@@ -49,7 +57,7 @@
 
 	<ItemGroup>
 		<Generated Include="**\*.g.cs" />
-	</ItemGroup>
+	</ItemGroup>-->
 	
 	<Target Name="CleanGenerated">
 		<Delete Files="@(Generated)" />
