@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReservationApi.Contracts.Interfaces;
 using ReservationApi.Data;
 using ReservationApi.Models.Sitting;
+using System.Text.Json.Serialization;
 
 namespace ReservationApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace ReservationApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSittings()
         {
-            var test = new List<Sitting>{ new Sitting {Id = 1 }, new Sitting { Id = 1, GroupSittingId = 1 } };
+            var test = new List<Sitting>{ new Sitting {Id = 1 }, new Sitting { Id = 2, GroupSittingId = 1 } };
             //var test = await _sittingsService.GetSittings();
             var model = test.Adapt<List<SittingBaseEventModel>>();
             return Ok(model);

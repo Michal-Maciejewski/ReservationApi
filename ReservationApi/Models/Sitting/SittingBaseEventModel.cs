@@ -1,5 +1,9 @@
-﻿namespace ReservationApi.Models.Sitting
+﻿using System.Text.Json.Serialization;
+
+namespace ReservationApi.Models.Sitting
 {
+    [JsonDerivedType(typeof(SittingEventModel))]
+    [JsonDerivedType(typeof(SittingGroupEventModel))]
     public class SittingBaseEventModel
     {
         public int Id { get; set; }

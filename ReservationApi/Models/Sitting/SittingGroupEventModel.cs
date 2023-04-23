@@ -4,6 +4,6 @@ namespace ReservationApi.Models.Sitting
 {
     public class SittingGroupEventModel : SittingBaseEventModel
     {
-        public int GroupSittingId { get; set; }
+        public new int GroupSittingId { get; set; }
     }
 }

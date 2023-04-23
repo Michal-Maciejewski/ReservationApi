@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Mapster;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReservationApi.Models.User;
 using MapsterMapper;
@@ -63,7 +63,7 @@ namespace ReservationApi.Controllers
 
             var userToCreate = registerMemberModel.Adapt<IdentityApiUser>();
 
-            await _userManagerService.CreateUserAndAssignRole(userToCreate, registerMemberModel.Password, "Member");
+            await _userManagerService.CreateUserAndAssignRole(userToCreate, registerMemberModel.Password, "Patron");
 
             return Ok();
         }
@@ -74,7 +74,7 @@ namespace ReservationApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        [Authorize(Roles = "Member")]
+        [Authorize(Roles = "Manager,Patron")]
         [Route("deletemember/{id=id}")]
         public async Task<IActionResult> DeleteMember(string id)
         {
@@ -113,7 +113,7 @@ namespace ReservationApi.Controllers
         [Route("signin")]
         public async Task<IActionResult> LogIn(LogInModel logInModel)
         {
-            SignInResult result =
+            var result =
                 await _userManagerService.SignInManager.PasswordSignInAsync(logInModel.Email, logInModel.Password, true, false);
 
             if (!result.Succeeded)
