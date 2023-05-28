@@ -19,6 +19,9 @@ namespace ReservationApi.Data
         public DbSet<Sitting> Sittings { get; set; }
         public DbSet<SeatingArea> SeatingAreas { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ReservationSource> ReservationSources { get; set; }
+        public DbSet<ReservationStatus> ReservationStatuses { get; set; }
+        public DbSet<SittingType> SittingTypes { get; set; }
         public ReservationApiDbContext(DbContextOptions<ReservationApiDbContext> options) : base(options)
         {
         }

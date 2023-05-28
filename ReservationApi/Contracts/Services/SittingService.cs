@@ -18,6 +18,16 @@ namespace ReservationApi.Contracts.Services
             return sitting;
         }
 
+        public async Task<List<SittingType>> GetSittingTypes()
+        {
+            return await _context.SittingTypes.ToListAsync();
+        }
+
+        public async Task<SittingType> GetSittingTypeIdAsync(int id)
+        {
+            return await _context.SittingTypes.FirstAsync(t => t.Id == id);
+        }
+
         public async Task<List<Sitting>> CreateSittingGroup(List<Sitting> sittings)
         {
             await _context.Sittings.AddRangeAsync(sittings);
@@ -32,14 +42,19 @@ namespace ReservationApi.Contracts.Services
             return;
         }
 
-        public async Task<Sitting> GetSitting(string id)
+        public async Task<Sitting> GetSitting(int id)
         {
             return await _context.Sittings.FindAsync(id);
         }
 
         public async Task<List<Sitting>> GetSittings()
         {
-            return await _context.Sittings.ToListAsync();
+            return await _context.Sittings.Include(s => s.SittingType).ToListAsync();
+        }
+
+        public async Task<List<Sitting>> GetSittingsRange(DateTime start, DateTime end)
+        {
+            return await _context.Sittings.Where(a => a.Start.Date >= start.AddDays(-1).Date && a.End.Date <= end.AddDays(1).Date).ToListAsync();
         }
 
         public async Task<Sitting> UpdateSitting(Sitting sitting)

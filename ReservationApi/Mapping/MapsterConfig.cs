@@ -22,10 +22,14 @@ namespace ReservationApi.Mapping
                 .Map(dest => dest.Roles, src => src.roles)
             .IgnoreNullValues(true);
 
-            TypeAdapterConfig<Sitting, SittingBaseEventModel>
-                .NewConfig()
-                .MapWith(src => src.GroupSittingId.HasValue ? src.Adapt<SittingGroupEventModel>() : src.Adapt<SittingEventModel>())
-                .ShallowCopyForSameType(true);
+            config.NewConfig<Sitting, SittingBaseEventModel>()
+                .Map(dest => dest.SittingTypeId, src => src.SittingType.Id)
+                .Map(dest => dest.Editable, src => !src.Reservations.Any() && src.End.Date >= DateTime.Now.Date)
+                .ConstructUsing(src =>
+                    src.GroupSittingId.HasValue
+                        ? (SittingBaseEventModel)new SittingGroupEventModel { GroupSittingId = src.GroupSittingId.Value }
+                        : new SittingEventModel())
+                .IgnoreNullValues(true);
         }
     }
 }

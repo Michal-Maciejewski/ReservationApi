@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservationApi.Models.User;
 using MapsterMapper;
 using ReservationApi.Contracts.Interfaces;
+using Duende.IdentityServer.Extensions;
 
 namespace ReservationApi.Controllers
 {
@@ -69,7 +70,7 @@ namespace ReservationApi.Controllers
         }
 
         /// <summary>
-        /// Deletes 
+        /// Deletes user
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -78,17 +79,18 @@ namespace ReservationApi.Controllers
         [Route("deletemember/{id=id}")]
         public async Task<IActionResult> DeleteMember(string id)
         {
-            var user = await _userManagerService.UserManager.FindByIdAsync(id);
-            
-            if(user == null)
-            {
-                return NotFound("User does not exist");
-            }
-            var correctUser = await _userManagerService.UserManager.GetUserAsync(User);
-            if(user.Id != correctUser.Id)
+            var user = await _userManagerService.UserManager.GetUserAsync(User);
+            if (user.Id != id)
             {
                 return BadRequest("Not the correct user");
             }
+            var userToDelete = await _userManagerService.UserManager.FindByIdAsync(id);
+            if(userToDelete == null)
+            {
+                return NotFound("User does not exist");
+            }
+            var userClaims = await _userManagerService.UserManager.GetClaimsAsync(userToDelete);
+            var result = await _userManagerService.UserManager.RemoveClaimsAsync(user, userClaims);
 
             return Ok();
         }
